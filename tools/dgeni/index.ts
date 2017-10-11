@@ -5,6 +5,7 @@ import {ComponentGrouper} from './processors/component-grouper';
 import {ReadTypeScriptModules} from 'dgeni-packages/typescript/processors/readTypeScriptModules';
 import {TsParser} from 'dgeni-packages/typescript/services/TsParser';
 import {sync as globSync} from 'glob';
+import {remarkPackage} from './processors/renderMarkdown';
 import * as path from 'path';
 
 // Dgeni packages
@@ -34,6 +35,7 @@ const dgeniPackageDeps = [
   jsdocPackage,
   nunjucksPackage,
   typescriptPackage,
+  remarkPackage,
 ];
 
 /** List of CDK packages that need to be documented. */
@@ -46,7 +48,6 @@ const materialPackages = globSync(path.join(sourceDir, 'lib', '*/'))
   .map(packagePath => path.basename(packagePath));
 
 export const apiDocsPackage = new Package('material2-api-docs', dgeniPackageDeps);
-
 
 // Processor that filters out symbols that should not be shown in the docs.
 apiDocsPackage.processor(new DocsPrivateFilter());
